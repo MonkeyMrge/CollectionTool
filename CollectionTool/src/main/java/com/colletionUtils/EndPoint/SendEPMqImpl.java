@@ -12,15 +12,15 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.MessageProperties;
 
-public class Send_EP extends EndPoint {
+public class SendEPMqImpl extends EndPointImpl implements SendEP {
 
-	Logger logger = Logger.getLogger(getClass());
+	private static final Logger logger = Logger.getLogger(SendEP.class);
 
-	public Send_EP(String exchangeName) {
-		super(exchangeName);
+	public SendEPMqImpl(String exchangeName, String routingKey) {
+		super(exchangeName, routingKey);
 	}
 
-	public void MsgSend(BaseMsg msg, String routingKey) {
+	public void MsgSend(BaseMsg msg) {
 		try {
 			Connection connection = connectionFactory.newConnection();
 			Channel channel = connection.createChannel();

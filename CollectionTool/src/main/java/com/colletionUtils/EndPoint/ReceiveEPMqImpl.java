@@ -9,16 +9,16 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.QueueingConsumer;
 
-public class Receive_EP extends EndPoint {
-	Logger logger = Logger.getLogger(getClass());
+public class ReceiveEPMqImpl extends EndPointImpl {
+	private static final Logger logger = Logger.getLogger(ReceiveEPMqImpl.class);
 
 	private Thread receiveThread;
 
-	public Receive_EP(String name) {
-		super(name);
+	public ReceiveEPMqImpl(String name, String routingKey) {
+		super(name, routingKey);
 	}
 
-	public void msgReceive(final String routingKey) {
+	public void msgReceive() {
 
 		receiveThread = new Thread(new Runnable() {
 
