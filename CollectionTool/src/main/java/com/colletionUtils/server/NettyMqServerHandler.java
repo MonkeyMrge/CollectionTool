@@ -1,7 +1,5 @@
 package com.colletionUtils.server;
 
-import java.util.Date;
-
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.EndPoint.SendEP;
@@ -13,7 +11,6 @@ import com.colletionUtils.message.AskType;
 import com.colletionUtils.message.BaseMsg;
 import com.colletionUtils.message.LoginParam;
 import com.colletionUtils.message.MsgType;
-import com.colletionUtils.mock.AskHandlerMock;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -54,17 +51,21 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, BaseMsg msg) throws Exception {
 		try {
-			MsgType msgType = msg.getMsgType();
 			String clientId = msg.getClientId();
-
+			
+			MsgType msgType = msg.getMsgType();
 			logString = "Netty Server receive msg from " + clientId + " , msg is " + msg;
 			logger.info(logString);
 			System.out.println(logString);
 
 			if (clientId == null) {
-				// 必须有clientId,没有的话 要求重新登录
+				// clientId防null检查,null的话 要求重新登录
 				AskMsg askMsg = new AskMsg(Configs.ServerId, new AskParam(AskType.LOGIN));
 				ctx.writeAndFlush(askMsg);
+			} else if (msgType == null) {
+				logString = "MsgType is null!";
+				logger.error(logString);
+				System.out.println(logString);
 			} else if (msgType.equals(MsgType.LOGIN)) {
 				// Login类型消息处理
 				LoginParam loginParam = (LoginParam) msg.getMsgBody();
@@ -77,29 +78,9 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 			} else {
 				// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
 				sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Name, msgType.name());
-				switch (msgType) {
-				case PING:
-					// 更新对应的消息最新时间
-					NettyChannelMap.updateStatus(clientId);
-					break;
-
-				case ASK:
-					NettyChannelMap.updateStatus(clientId);
-					// AskMsg的后续处理
-					ctx.writeAndFlush(AskHandlerMock.Do((AskMsg) msg));
-					break;
-
-				case REPLY:
-
-					break;
-
-				case LOGGER:
-					
-					break;
-				default:
-					System.out.println("Server-->unknown or error msg type: " + msgType + "//r//n with msg: " + msg);
-					break;
-				}
+				// 更新对应的消息最新时间
+				NettyChannelMap.updateStatus(clientId);
+				sendEP.MsgSend(msg);
 			}
 
 		} finally {

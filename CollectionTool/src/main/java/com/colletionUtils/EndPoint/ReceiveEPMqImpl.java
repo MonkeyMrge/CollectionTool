@@ -21,7 +21,6 @@ public class ReceiveEPMqImpl extends EndPointImpl {
 	public void msgReceive() {
 
 		receiveThread = new Thread(new Runnable() {
-
 			public void run() {
 				try {
 					Connection connection = connectionFactory.newConnection();
@@ -42,8 +41,8 @@ public class ReceiveEPMqImpl extends EndPointImpl {
 						QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 						BaseMsg msgReceive = (BaseMsg) ShareUtils.ByteToObject(delivery.getBody());
 						logger.info("Receive_EP receive message");
-						//////
 
+						
 						channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 					}
 				} catch (Exception e) {

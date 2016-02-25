@@ -27,6 +27,8 @@ public class NettyChannelMap {
 			Date date = new Date(System.currentTimeMillis());
 			idSocketmap.put(clientId, socketChannel);
 			statusMap.put(clientId, date);
+			logString = "NettyChannelMap:ClientId: " + clientId + " add success!";
+			logger.info(logString);
 		} else {
 			idSocketmap.replace(clientId, socketChannel);
 			updateStatus(clientId);
@@ -40,7 +42,7 @@ public class NettyChannelMap {
 		else {
 			logString = "NettyChannelMap:ClientId: " + clientId + " doesn't existed!";
 			System.out.println(logString);
-			logger.info(logString);
+			logger.error(logString);
 		}
 	}
 
@@ -57,7 +59,6 @@ public class NettyChannelMap {
 		idSocketmap.remove(clientId);
 		statusMap.remove(clientId);
 		logString = "NettyChannelMap remove Client:" + clientId + " success!";
-		System.out.println(logString);
 		logger.info(logString);
 	}
 
@@ -67,7 +68,7 @@ public class NettyChannelMap {
 		} else {
 			logString = "NettyChannelMap remove -->ClientId: " + clientId + " doesn't existed!";
 			System.out.println("" + logString);
-			logger.info(logString);
+			logger.error(logString);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class NettyChannelMap {
 		else {
 			logString = "NettyChannelMap get --> ClientId: " + clientId + " doesn't existed!";
 			System.out.println(logString);
-			logger.info(logString);
+			logger.error(logString);
 		}
 		return null;
 	}
