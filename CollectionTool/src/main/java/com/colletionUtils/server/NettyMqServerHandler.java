@@ -14,6 +14,8 @@ import com.colletionUtils.message.MsgType;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
@@ -52,7 +54,7 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 	protected void messageReceived(ChannelHandlerContext ctx, BaseMsg msg) throws Exception {
 		try {
 			String clientId = msg.getClientId();
-			
+
 			MsgType msgType = msg.getMsgType();
 			logString = "Netty Server receive msg from " + clientId + " , msg is " + msg;
 			logger.info(logString);
@@ -76,17 +78,34 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 					logger.info(ctx.channel() + "client: " + clientId + " login Netty Server successed!");
 				}
 			} else {
-				// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
-				sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Name, msgType.name());
-				// 更新对应的消息最新时间
-				NettyChannelMap.updateStatus(clientId);
-				sendEP.MsgSend(msg);
-			}
 
+				switch (msgType) {
+				case PING:
+					// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
+					sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
+							Configs.RabbitMQ_Exchange_LOG_Name, msgType.name());
+					// 更新对应的消息最新时间
+					NettyChannelMap.updateStatus(clientId);
+					sendEP.MsgSend(msg);
+					break;
+				default:
+					// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
+					sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
+							Configs.RabbitMQ_Exchange_Default_Name, msgType.name());
+					// 更新对应的消息最新时间
+					NettyChannelMap.updateStatus(clientId);
+					sendEP.MsgSend(msg);
+				}
+			}
 		} finally {
 			ReferenceCountUtil.release(msg);
 		}
+	}
 
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		super.exceptionCaught(ctx, cause);
+		logger.warn(ctx + " caught Exception: " + cause.getMessage());
 	}
 
 }

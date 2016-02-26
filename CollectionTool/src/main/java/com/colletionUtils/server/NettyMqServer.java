@@ -2,10 +2,13 @@ package com.colletionUtils.server;
 
 import org.apache.log4j.Logger;
 
+import com.colletionUtils.EndPoint.ReceiveEP;
+import com.colletionUtils.EndPoint.ReceiveEPMqImpl;
 import com.colletionUtils.common.Configs;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -17,38 +20,89 @@ import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 
+/**
+ * @author gemengran 使用单例模式
+ */
 public class NettyMqServer {
 	private static final Logger logger = Logger.getLogger(NettyMqServer.class);
 
 	private EventLoopGroup boss;
 	private EventLoopGroup worker;
 	private Channel serverChannel;
+	private static NettyMqServer nettyMqServer;
+	private int port;
 
-	public NettyMqServer(int port) {
+	private NettyMqServer() {
 		boss = new NioEventLoopGroup();
 		worker = new NioEventLoopGroup();
-		start(port);
+		port = Configs.Netty_Server_Port;
 	}
 
-	public void start(int port) {
-		ServerBootstrap bootstrap = new ServerBootstrap();
-		bootstrap.group(boss, worker);
-		bootstrap.channel(NioServerSocketChannel.class);
-		bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
-			@Override
-			protected void initChannel(SocketChannel channel) throws Exception {
-				channel.pipeline().addLast(new IdleStateHandler(Configs.Netty_Server_ReaderIdleTimeSeconds,
-						Configs.Netty_Server_WriterIdleTimeSeconds, Configs.Netty_Server_AllIdleTimeSeconds));
-				channel.pipeline()
-						.addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
-				channel.pipeline().addLast(new ObjectEncoder());
-				channel.pipeline().addLast(new NettyMqServerHandler());
+	// 单例模式 获取唯一server对象
+	public static NettyMqServer getInstance() {
+		if (nettyMqServer == null)
+			getInstanceSync();
+		return nettyMqServer;
+	}
+
+	private synchronized static void getInstanceSync() {
+		if (nettyMqServer == null)
+			nettyMqServer = new NettyMqServer();
+	}
+
+	private void start() {
+		try {
+			ServerBootstrap bootstrap = new ServerBootstrap();
+			bootstrap.group(boss, worker);
+			bootstrap.channel(NioServerSocketChannel.class);
+			bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
+				@Override
+				protected void initChannel(SocketChannel channel) throws Exception {
+					channel.pipeline().addLast(new IdleStateHandler(Configs.Netty_Server_ReaderIdleTimeSeconds,
+							Configs.Netty_Server_WriterIdleTimeSeconds, Configs.Netty_Server_AllIdleTimeSeconds));
+					channel.pipeline()
+							.addLast(new ObjectDecoder(ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
+					channel.pipeline().addLast(new ObjectEncoder());
+					channel.pipeline().addLast(new NettyMqServerHandler());
+				}
+			});
+			bootstrap.option(ChannelOption.SO_BACKLOG, Configs.Netty_Server_SO_Backlog);
+			bootstrap.childOption(ChannelOption.SO_KEEPALIVE, Configs.Netty_Server_SO_KEEPALIVE);
+			bootstrap.childOption(ChannelOption.TCP_NODELAY, Configs.Netty_Server_TCP_NODELAY);
+			bootstrap.childOption(ChannelOption.SO_REUSEADDR, Configs.Netty_Server_SO_REUSEADDR);
+
+			ChannelFuture future = bootstrap.bind(port).sync();
+			serverChannel = future.channel();
+
+			if (future.isSuccess()) {
+				logger.info("Netty Server starts success!");
+				System.out.println("Netty Server starts success!");
 			}
-		});
-		bootstrap.option(ChannelOption.SO_BACKLOG, Configs.Netty_Server_SO_Backlog);
-		bootstrap.childOption(ChannelOption.SO_KEEPALIVE, Configs.Netty_Server_SO_KEEPALIVE);
-		bootstrap.childOption(ChannelOption.TCP_NODELAY, Configs.Netty_Server_TCP_NODELAY);
-		bootstrap.childOption(ChannelOption.SO_REUSEADDR, Configs.Netty_Server_SO_REUSEADDR);
+
+		} catch (Exception e) {
+			logger.error("Netty Server starts error ! Error message: " + e.getMessage());
+			close();
+		}
 	}
 
+	private void close() {
+		if (serverChannel != null) {
+			serverChannel.close();
+		}
+		if (worker != null) {
+			worker.shutdownGracefully();
+		}
+		if (boss != null) {
+			boss.shutdownGracefully();
+		}
+		logger.info("Netty Server shut down!");
+	}
+
+	public static void startServer() {
+		getInstance().start();
+	}
+
+	public static void closeServer() {
+		getInstance().close();
+	}
 }

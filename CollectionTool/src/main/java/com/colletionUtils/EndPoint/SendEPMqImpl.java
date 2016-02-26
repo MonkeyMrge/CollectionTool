@@ -16,15 +16,15 @@ public class SendEPMqImpl extends EndPointImpl implements SendEP {
 
 	private static final Logger logger = Logger.getLogger(SendEP.class);
 
-	public SendEPMqImpl(String exchangeName, String routingKey) {
-		super(exchangeName, routingKey);
+	public SendEPMqImpl(RabbitMQExchangeType exchangeType, String exchangeName, String routingKey) {
+		super(exchangeType, exchangeName, routingKey);
 	}
 
 	public void MsgSend(BaseMsg msg) {
 		try {
 			Connection connection = connectionFactory.newConnection();
 			Channel channel = connection.createChannel();
-			channel.exchangeDeclare(exchangeName, Configs.RabbitMQ_Exchange_Type);
+			channel.exchangeDeclare(exchangeName, exchangeType.name());
 			channel.basicPublish(exchangeName, routingKey, MessageProperties.PERSISTENT_TEXT_PLAIN,
 					ShareUtils.ObjectToByte(msg));
 			logger.info(

@@ -3,13 +3,15 @@ package com.colletionUtils.EndPoint;
 import com.colletionUtils.common.Configs;
 import com.rabbitmq.client.ConnectionFactory;
 
-public class EndPointImpl {
+public class EndPointImpl implements EndPoint {
 	protected String exchangeName;
 	protected ConnectionFactory connectionFactory;
 	protected String routingKey;
+	protected RabbitMQExchangeType exchangeType;
 
-	public EndPointImpl(String echangeName, String routingKey) {
+	public EndPointImpl(RabbitMQExchangeType exchangeType, String echangeName, String routingKey) {
 		super();
+		this.exchangeType = exchangeType;
 		this.exchangeName = echangeName;
 		this.routingKey = routingKey;
 		connectionFactory = new ConnectionFactory();

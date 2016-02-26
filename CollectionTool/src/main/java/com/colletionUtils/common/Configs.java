@@ -1,5 +1,7 @@
 package com.colletionUtils.common;
 
+import com.colletionUtils.EndPoint.RabbitMQExchangeType;
+
 public class Configs {
 
 	/////////////////////////////////// 基础配置/////////////////////////////////////////////////////
@@ -16,14 +18,20 @@ public class Configs {
 	public static String RabbitMQ_VirtualHost = "/";
 
 	////////////////////////// RabbitMQ个性化配置/////////////////////////////////////////////////////
-	public static String RabbitMQ_Exchange_Name = "testExchange";
-	public static String RabbitMQ_Exchange_RoutingKey = "testRoutingKey";
-
-	////////////////////////// RabbitMQ接收端配置/////////////////////////////////////////////////////
 	/**
-	 * 订阅消费模式 topic，广播用fanout，直连用direct
+	 * 日志基于日志类型，分多个queue，给不同客户端处理
 	 */
-	public static String RabbitMQ_Exchange_Type = "topic";
+	public static RabbitMQExchangeType RabbitMQ_Exchange_Log_Type = RabbitMQExchangeType.topic;
+	/**
+	 * 默认分发给exchange上所有的queue
+	 */
+	public static RabbitMQExchangeType RabbitMQ_Exchange_Default_Type = RabbitMQExchangeType.direct;
+	/**
+	 * 日志和默认分两个exchange处理
+	 */
+	public static String RabbitMQ_Exchange_LOG_Name = "testExchange_Log";
+	public static String RabbitMQ_Exchange_Default_Name = "testExchange_Default";
+	////////////////////////// RabbitMQ接收端配置/////////////////////////////////////////////////////
 	/**
 	 * 打开消息持久化
 	 */
@@ -42,6 +50,11 @@ public class Configs {
 	public static Boolean RabbitMQ_Exchange_AutoAck = false;
 
 	////////////////////////// Netty服务端配置/////////////////////////////////////////////////////
+
+	/**
+	 * Netty server port
+	 */
+	public static int Netty_Server_Port = 9971;
 
 	/**
 	 * 读操作空闲时间，单位秒;
