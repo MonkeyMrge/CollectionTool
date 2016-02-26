@@ -86,19 +86,17 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 					System.out.println(clientId + " -->" + NettyChannelMap.query(clientId));
 
 					switch (msgType) {
-					case PING:
-						// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
-						sendEP = new MqSendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
+					case LOGGER:
+						// 日志数据丢到LOG的exchange，使用topic，方便日志分类
+						sendEP = new MqSendEPMqImpl(Configs.RabbitMQ_Exchange_Log_Type,
 								Configs.RabbitMQ_Exchange_LOG_Name, msgType.name());
-
 						sendEP.MsgSend(msg);
 						break;
+
 					default:
-						// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
+						// 默认丢到默认的一个exchange，使用direct
 						sendEP = new MqSendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
 								Configs.RabbitMQ_Exchange_Default_Name, msgType.name());
-						// 更新对应的消息最新时间
-						NettyChannelMap.updateStatus(clientId);
 						sendEP.MsgSend(msg);
 					}
 				} else {
