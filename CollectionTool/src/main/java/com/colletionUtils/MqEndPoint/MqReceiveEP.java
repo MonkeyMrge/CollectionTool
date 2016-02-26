@@ -1,7 +1,7 @@
-package com.colletionUtils.EndPoint;
+package com.colletionUtils.MqEndPoint;
 
 import com.colletionUtils.mock.ServerMsgHandler;
 
-public interface ReceiveEP {
+public interface MqReceiveEP {
 	public void getMsg(ServerMsgHandler serverMsgHandlerMock);
 }

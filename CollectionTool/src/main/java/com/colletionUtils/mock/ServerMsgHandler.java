@@ -1,26 +1,30 @@
 package com.colletionUtils.mock;
 
-import com.colletionUtils.EndPoint.ReceiveEP;
+import com.colletionUtils.MqEndPoint.MqReceiveEP;
 import com.colletionUtils.message.BaseMsg;
 
 public class ServerMsgHandler {
-	private String serverName;
+	protected String serverName;
 
 	public ServerMsgHandler(String serverName) {
 		super();
 		this.serverName = serverName;
 	}
 
-	public Boolean Do(BaseMsg msg) {
-		System.out.println(serverName + "receive msg from RabbitMQ: " + msg);
-		return true;
+	public void start() {
+
 	}
 
-	public void askMsg(final ReceiveEP receiveEP) {
+	public void Do(BaseMsg msg) {
+		System.out.println(serverName + " receive msg from RabbitMQ: " + msg);
+	}
+
+	protected void askMsg(final MqReceiveEP receiveEP) {
 		new Thread(new Runnable() {
 			public void run() {
 				receiveEP.getMsg(ServerMsgHandler.this);
 			}
 		}).start();
 	}
+
 }

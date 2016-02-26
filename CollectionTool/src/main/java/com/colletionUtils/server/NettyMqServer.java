@@ -4,8 +4,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import com.colletionUtils.EndPoint.ReceiveEP;
-import com.colletionUtils.EndPoint.ReceiveEPMqImpl;
+import com.colletionUtils.MqEndPoint.MqReceiveEP;
+import com.colletionUtils.MqEndPoint.MqReceiveEPMqImpl;
 import com.colletionUtils.common.Configs;
 
 import io.netty.bootstrap.ServerBootstrap;

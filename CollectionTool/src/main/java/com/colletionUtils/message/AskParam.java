@@ -21,4 +21,9 @@ public class AskParam implements Serializable {
 		this.askType = askType;
 	}
 
+	@Override
+	public String toString() {
+		return "AskParam [askType=" + askType + "]";
+	}
+
 }

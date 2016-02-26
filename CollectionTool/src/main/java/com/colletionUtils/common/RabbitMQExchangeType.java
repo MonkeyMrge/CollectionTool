@@ -1,4 +1,4 @@
-package com.colletionUtils.EndPoint;
+package com.colletionUtils.common;
 
 public enum RabbitMQExchangeType {
 	topic, fanout, direct

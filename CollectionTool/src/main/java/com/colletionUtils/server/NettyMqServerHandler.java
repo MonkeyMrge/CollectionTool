@@ -2,8 +2,8 @@ package com.colletionUtils.server;
 
 import org.apache.log4j.Logger;
 
-import com.colletionUtils.EndPoint.SendEP;
-import com.colletionUtils.EndPoint.SendEPMqImpl;
+import com.colletionUtils.MqEndPoint.MqSendEP;
+import com.colletionUtils.MqEndPoint.MqSendEPMqImpl;
 import com.colletionUtils.common.Configs;
 import com.colletionUtils.message.AskMsg;
 import com.colletionUtils.message.AskParam;
@@ -21,7 +21,7 @@ import io.netty.util.ReferenceCountUtil;
 public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
 	private static final Logger logger = Logger.getLogger(NettyMqServerHandler.class);
-	private SendEP sendEP;
+	private MqSendEP sendEP;
 	private String logString;
 
 	public NettyMqServerHandler() {
@@ -73,26 +73,40 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 						&& loginParam.getPassword().equals(Configs.NETTY_PWD)) {
 					// Netty Client登录成功，保存其SocketChannel和最新消息时间
 					NettyChannelMap.add(clientId, (SocketChannel) ctx.channel());
-					logger.info(ctx.channel() + "client: " + clientId + " login Netty Server successed!");
+					logString = ctx.channel() + "--->client: " + clientId + " login Netty Server successed!";
+				} else {
+					logString = ctx.channel() + "--->client: " + clientId + " login Netty Server fail!-->" + loginParam;
 				}
+				logger.info(logString);
+				System.out.println(logString);
 			} else {
+				if (NettyChannelMap.containsKey(clientId)) {
+					// 更新对应的消息最新时间
+					NettyChannelMap.updateStatus(clientId);
+					System.out.println(clientId + " -->" + NettyChannelMap.query(clientId));
 
-				switch (msgType) {
-				case PING:
-					// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
-					sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
-							Configs.RabbitMQ_Exchange_LOG_Name, msgType.name());
-					// 更新对应的消息最新时间
-					NettyChannelMap.updateStatus(clientId);
-					sendEP.MsgSend(msg);
-					break;
-				default:
-					// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
-					sendEP = new SendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
-							Configs.RabbitMQ_Exchange_Default_Name, msgType.name());
-					// 更新对应的消息最新时间
-					NettyChannelMap.updateStatus(clientId);
-					sendEP.MsgSend(msg);
+					switch (msgType) {
+					case PING:
+						// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
+						sendEP = new MqSendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
+								Configs.RabbitMQ_Exchange_LOG_Name, msgType.name());
+
+						sendEP.MsgSend(msg);
+						break;
+					default:
+						// 把消息丢到Configs.RabbitMQ_Exchange_Name的Exchange,routingKey为其类型，方便后面分类取
+						sendEP = new MqSendEPMqImpl(Configs.RabbitMQ_Exchange_Default_Type,
+								Configs.RabbitMQ_Exchange_Default_Name, msgType.name());
+						// 更新对应的消息最新时间
+						NettyChannelMap.updateStatus(clientId);
+						sendEP.MsgSend(msg);
+					}
+				} else {
+					logString = clientId + " does not existed!";
+					logger.warn(logString);
+					System.out.println(logString);
+					AskMsg askMsg = new AskMsg(Configs.ServerId, new AskParam(AskType.LOGIN));
+					ctx.writeAndFlush(askMsg);
 				}
 			}
 		} finally {

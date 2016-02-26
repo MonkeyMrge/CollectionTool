@@ -1,7 +1,5 @@
 package com.colletionUtils.common;
 
-import com.colletionUtils.EndPoint.RabbitMQExchangeType;
-
 public class Configs {
 
 	/////////////////////////////////// 基础配置/////////////////////////////////////////////////////

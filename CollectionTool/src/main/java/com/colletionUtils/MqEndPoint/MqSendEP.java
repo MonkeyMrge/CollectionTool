@@ -1,7 +1,7 @@
-package com.colletionUtils.EndPoint;
+package com.colletionUtils.MqEndPoint;
 
 import com.colletionUtils.message.BaseMsg;
 
-public interface SendEP {
+public interface MqSendEP {
 	public void MsgSend(BaseMsg msg);
 }

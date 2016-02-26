@@ -109,4 +109,8 @@ public class NettyChannelMap {
 		return idSocketmap.size();
 	}
 
+	public static Boolean containsKey(String clientId){
+		return idSocketmap.containsKey(clientId);
+	}
+
 }
