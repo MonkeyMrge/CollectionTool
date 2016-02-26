@@ -1,6 +1,6 @@
 package com.colletionUtils.mock;
 
-public class PingHandlerMock extends ServerMsgHandlerMock {
+public class PingHandlerMock extends ServerMsgHandler {
 
 	public PingHandlerMock(String serverName) {
 		super(serverName);

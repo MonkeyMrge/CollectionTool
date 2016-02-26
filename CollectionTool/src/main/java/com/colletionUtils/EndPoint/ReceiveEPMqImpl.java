@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.colletionUtils.common.Configs;
 import com.colletionUtils.common.ShareUtils;
 import com.colletionUtils.message.BaseMsg;
+import com.colletionUtils.mock.ServerMsgHandler;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.QueueingConsumer;
@@ -49,8 +50,8 @@ public class ReceiveEPMqImpl extends EndPointImpl implements ReceiveEP {
 		return null;
 	}
 
-	public BaseMsg getMsg() {
-		return msgReceive();
+	public void getMsg(ServerMsgHandler serverMsgHandler) {
+		serverMsgHandler.Do(msgReceive());
 	}
 
 	public void ack() {
@@ -61,5 +62,6 @@ public class ReceiveEPMqImpl extends EndPointImpl implements ReceiveEP {
 			logger.error("ServerMsgHandler ack error" + e.getMessage());
 		}
 	}
+
 
 }
