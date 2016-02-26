@@ -26,10 +26,8 @@ public class MqSendEPMqImpl extends MqEndPoint implements MqSendEP {
 			channel.exchangeDeclare(exchangeName, exchangeType.name());
 			channel.basicPublish(exchangeName, routingKey, MessageProperties.PERSISTENT_TEXT_PLAIN,
 					ShareUtils.ObjectToByte(msg));
-			String logString = "MsgSend--> send message to Exchange: " + exchangeName + " ,with routingKey: "
-					+ routingKey + ", exchange type: " + exchangeType;
-			logger.info(logString);
-			System.out.println(logString);
+			logger.info("MsgSend--> send message to Exchange: " + exchangeName + " ,with routingKey: " + routingKey
+					+ ", exchange type: " + exchangeType);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.warn(e.getMessage());

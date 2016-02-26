@@ -8,7 +8,6 @@ public class TestMain {
 	public static void main(String[] args) {
 
 		new Thread(new Runnable() {
-
 			public void run() {
 				ServerMsgHandler handler = new AskHandlerMock("Ask001");
 				handler.start();
