@@ -1,5 +1,7 @@
 package com.colletionUtils.server;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.EndPoint.ReceiveEP;
@@ -98,11 +100,22 @@ public class NettyMqServer {
 		logger.info("Netty Server shut down!");
 	}
 
-	public static void startServer() {
-		getInstance().start();
+	public void startServer() {
+		try {
+			getInstance().start();
+			while (true) {
+				if (NettyChannelMap.size() == 0)
+					TimeUnit.SECONDS.sleep(2);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logger.warn(e.getMessage());
+		}
+
 	}
 
-	public static void closeServer() {
+	public void closeServer() {
 		getInstance().close();
 	}
 }

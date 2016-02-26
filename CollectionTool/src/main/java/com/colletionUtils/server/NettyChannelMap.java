@@ -104,4 +104,9 @@ public class NettyChannelMap {
 	public static ConcurrentHashMap<String, Date> getStatusMap() {
 		return statusMap;
 	}
+
+	public static int size() {
+		return idSocketmap.size();
+	}
+
 }
