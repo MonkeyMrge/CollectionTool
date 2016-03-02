@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<context:component-scan base-package="com.colletionUtils.*"></context:component-scan>
+
+
+
+	<!-- 配置文件管理 -->
+	<bean id="propertyConfigure"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${mysql.driver}</value>
+		</property>
+		<property name="url">
+			<value>${mysql.url}</value>
+		</property>
+		<property name="username">
+			<value>${mysql.user}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.password}</value>
+		</property>
+		<!-- 连接池启动时创建的初始化连接数量（不设定即为0） -->
+		<property name="initialSize">
+			<value>${mysql.connectionPool.initialSize}</value>
+		</property>
+		<!-- 连接池中可同时连接的最大的连接数（默认值为8) -->
+		<property name="maxActive">
+			<value>${mysql.connectionPool.maxActive}</value>
+		</property>
+		<!-- 连接池中最小的空闲的连接数，低于这个数量会被创建新的连接 -->
+		<property name="minIdle">
+			<value>${mysql.connectionPool.minIdle}</value>
+		</property>
+		<!-- 连接池中最大的空闲的连接数，超过的空闲连接将被释放 -->
+		<property name="maxIdle">
+			<value>${mysql.connectionPool.maxIdle}</value>
+		</property>
+		<!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常 -->
+		<property name="maxWait">
+			<value>${mysql.connectionPool.maxWait}</value>
+		</property>
+		<!-- removeAbandoned属性说明 -->
+		<!-- 超过removeAbandonedTimeout时间后，是否进 行没用连接（废弃）的回收（默认为false) -->
+		<!-- 举例当maxActive=20, 活动连接为18,空闲连接为1时可以触发"removeAbandoned".但是活动连接只有在没有被使用的时间超 
+			过"removeAbandonedTimeout(这里默认为300秒)"时才被回收 -->
+		<!-- 遇到数据库死锁。以前遇到过后端存储过程做了锁表操作，导致前台集群中连接池全都被block住，后续的业务处理因为拿不到链接所有都处理失败了。 -->
+		<property name="removeAbandoned">
+			<value>${mysql.connectionPool.removeAbandoned}</value>
+		</property>
+		<!-- 取得连接时是否进行有效性验证 -->
+		<property name="testOnBorrow">
+			<value>${mysql.connectionPool.testOnBorrow}</value>
+		</property>
+		<!-- 返还连接时是否进行有效性验证 -->
+		<property name="testOnReturn">
+			<value>${mysql.connectionPool.testOnReturn}</value>
+		</property>
+		<!-- 连接空闲时是否进行有效性验证 -->
+		<property name="testWhileIdle">
+			<value>${mysql.connectionPool.testWhileIdle}</value>
+		</property>
+	</bean>
+
+	<!-- 配置hibernate5的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<!-- 方言设置 -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<!-- 控制台打印sql语句设置设置 -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 格式化sql -->
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- 数据库表结构更新设置 -->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+
+
+				<!-- 二级缓存设置 -->
+				<prop key="hibernate.cache.use_second_level_cache">org.hibernate.cache.internal.NoCacheProvider</prop>
+				<!-- 是否开启查询缓存 -->
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<!-- 最大抓取深度，如果为0，则关闭默认的外连接抓取。建议值为0-3 -->
+				<prop key="hibernate.max_fetch_depth">1</prop>
+				<!-- 用于生成有助于调试的注释信息，默认为关闭 -->
+				<prop key="hibernate.use_sql_comments">true</prop>
+			</props>
+		</property>
+		<!-- 自动扫描实体对象com.colletionUtils.Dao的包结构中存放实体类 -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.colletionUtils.*</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 设定transactionManager -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!--启动spring事务注解功能 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 如果执行到save开头的任何方法时没有事务则开启一个事务 这是最常见的方式 -->
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<!-- 如果当前没有事务，就以非事务方式执行。只读 -->
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- <aop:config> <aop:pointcut id="serviceOperation" expression="execution(* 
+		tdxy.*.service.*Service.*(..))" /> <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" 
+		/> </aop:config> -->
+
+
+	<bean id="msgDaoImpl" class="com.colletionUtils.Dao.MsgDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+
+</beans>
+				
