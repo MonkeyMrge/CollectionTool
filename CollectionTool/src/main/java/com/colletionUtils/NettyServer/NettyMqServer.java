@@ -1,12 +1,12 @@
-package com.colletionUtils.server;
+package com.colletionUtils.NettyServer;
 
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+import com.colletionUtils.Common.Configs;
 import com.colletionUtils.MqEndPoint.MqReceiveEP;
 import com.colletionUtils.MqEndPoint.MqReceiveEPMqImpl;
-import com.colletionUtils.common.Configs;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;

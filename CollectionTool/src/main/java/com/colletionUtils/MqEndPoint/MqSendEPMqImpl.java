@@ -2,9 +2,9 @@ package com.colletionUtils.MqEndPoint;
 
 import org.apache.log4j.Logger;
 
-import com.colletionUtils.common.RabbitMQExchangeType;
-import com.colletionUtils.common.ShareUtils;
-import com.colletionUtils.message.BaseMsg;
+import com.colletionUtils.Common.ObjectByteSwap;
+import com.colletionUtils.Common.RabbitMQExchangeType;
+import com.colletionUtils.Message.BaseMsg;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.MessageProperties;
@@ -25,7 +25,7 @@ public class MqSendEPMqImpl extends MqEndPoint implements MqSendEP {
 			channel = connection.createChannel();
 			channel.exchangeDeclare(exchangeName, exchangeType.name());
 			channel.basicPublish(exchangeName, routingKey, MessageProperties.PERSISTENT_TEXT_PLAIN,
-					ShareUtils.ObjectToByte(msg));
+					ObjectByteSwap.ObjectToByte(msg));
 			logger.info("MsgSend--> send message to Exchange: " + exchangeName + " ,with routingKey: " + routingKey
 					+ ", exchange type: " + exchangeType);
 		} catch (Exception e) {

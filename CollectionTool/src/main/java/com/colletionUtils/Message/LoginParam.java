@@ -1,12 +1,21 @@
-package com.colletionUtils.message;
+package com.colletionUtils.Message;
 
 import java.io.Serializable;
 
+/**
+ * Netty服务端登录账号、密码信息
+ */
 public class LoginParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Netty服务端登录账号
+	 */
 	private String userName;
+	/**
+	 * Netty服务端登录密码
+	 */
 	private String password;
 
 	public LoginParam(String userName, String password) {

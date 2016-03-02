@@ -1,4 +1,4 @@
-package com.colletionUtils.message;
+package com.colletionUtils.Message;
 
 import java.io.Serializable;
 

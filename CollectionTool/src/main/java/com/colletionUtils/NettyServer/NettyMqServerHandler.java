@@ -1,16 +1,16 @@
-package com.colletionUtils.server;
+package com.colletionUtils.NettyServer;
 
 import org.apache.log4j.Logger;
 
+import com.colletionUtils.Common.Configs;
+import com.colletionUtils.Message.AskMsg;
+import com.colletionUtils.Message.AskParam;
+import com.colletionUtils.Message.AskType;
+import com.colletionUtils.Message.BaseMsg;
+import com.colletionUtils.Message.LoginParam;
+import com.colletionUtils.Message.MsgType;
 import com.colletionUtils.MqEndPoint.MqSendEP;
 import com.colletionUtils.MqEndPoint.MqSendEPMqImpl;
-import com.colletionUtils.common.Configs;
-import com.colletionUtils.message.AskMsg;
-import com.colletionUtils.message.AskParam;
-import com.colletionUtils.message.AskType;
-import com.colletionUtils.message.BaseMsg;
-import com.colletionUtils.message.LoginParam;
-import com.colletionUtils.message.MsgType;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

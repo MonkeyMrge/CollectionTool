@@ -1,7 +1,7 @@
 package com.colletionUtils.mock;
 
+import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.MqEndPoint.MqReceiveEP;
-import com.colletionUtils.message.BaseMsg;
 
 public class ServerMsgHandler {
 	protected String serverName;

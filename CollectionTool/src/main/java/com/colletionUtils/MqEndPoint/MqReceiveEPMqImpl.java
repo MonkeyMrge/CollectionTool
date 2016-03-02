@@ -4,10 +4,10 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-import com.colletionUtils.common.Configs;
-import com.colletionUtils.common.RabbitMQExchangeType;
-import com.colletionUtils.common.ShareUtils;
-import com.colletionUtils.message.BaseMsg;
+import com.colletionUtils.Common.Configs;
+import com.colletionUtils.Common.ObjectByteSwap;
+import com.colletionUtils.Common.RabbitMQExchangeType;
+import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.mock.ServerMsgHandler;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -40,7 +40,7 @@ public class MqReceiveEPMqImpl extends MqEndPoint implements MqReceiveEP {
 
 			while (true) {
 				delivery = consumer.nextDelivery();
-				msgReceive = (BaseMsg) ShareUtils.ByteToObject(delivery.getBody());
+				msgReceive = (BaseMsg) ObjectByteSwap.ByteToObject(delivery.getBody());
 				logger.info("Receive_EP with RoutingKey" + routingKey + " receive message");
 				
 				serverMsgHandler.Do(msgReceive);

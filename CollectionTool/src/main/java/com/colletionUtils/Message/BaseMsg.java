@@ -1,13 +1,28 @@
-package com.colletionUtils.message;
+package com.colletionUtils.Message;
 
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table(name = "t_msg")
 public class BaseMsg implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 消息ID
+	 */
+	@Id
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
+	private int msgId;
 	/**
 	 * 消息创建时间
 	 */
@@ -57,11 +72,18 @@ public class BaseMsg implements Serializable {
 		this.msgBody = msgBody;
 	}
 
+	public int getId() {
+		return msgId;
+	}
+
+	public void setId(int msgId) {
+		this.msgId = msgId;
+	}
+
 	@Override
 	public String toString() {
-		return msgType + "_Msg [date="
-				+ DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM).format(date) + ", msgType="
-				+ msgType + ", clientId=" + clientId + ", msgBody=" + msgBody + "]";
+		return "BaseMsg [msgId=" + msgId + ", date=" + date + ", msgType=" + msgType + ", clientId=" + clientId
+				+ ", msgBody=" + msgBody + "]";
 	}
 
 }

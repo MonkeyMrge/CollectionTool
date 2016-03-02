@@ -1,4 +1,4 @@
-package com.colletionUtils.message;
+package com.colletionUtils.Message;
 
 public class ReplyMsg extends BaseMsg {
 	private static final long serialVersionUID = 1L;

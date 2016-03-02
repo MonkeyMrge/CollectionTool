@@ -1,8 +1,8 @@
 package com.colletionUtils.mock;
 
+import com.colletionUtils.Common.Configs;
+import com.colletionUtils.Message.MsgType;
 import com.colletionUtils.MqEndPoint.MqReceiveEPMqImpl;
-import com.colletionUtils.common.Configs;
-import com.colletionUtils.message.MsgType;
 
 public class AskHandlerMock extends ServerMsgHandler {
 

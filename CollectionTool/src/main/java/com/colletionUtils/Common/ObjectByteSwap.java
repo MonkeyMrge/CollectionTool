@@ -1,4 +1,4 @@
-package com.colletionUtils.common;
+package com.colletionUtils.Common;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
  * @author gemengran
  * Object 与  byte[] 互转
  */
-public class ShareUtils {
+public class ObjectByteSwap {
 	public static Object ByteToObject(byte[] bytes) {
 		Object obj = null;
 		try {
