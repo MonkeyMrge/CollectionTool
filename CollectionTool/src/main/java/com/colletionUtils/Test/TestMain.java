@@ -28,9 +28,9 @@ public class TestMain {
 
 		LoggerParam loggerParam = new LoggerParam("warning", "this is log");
 
-		AskMsg msg = new AskMsg("client001", new AskParam(AskType.LOGIN));
+//		AskMsg msg = new AskMsg("client001", new AskParam(AskType.LOGIN));
 
-		// LoggerMsg msg = new LoggerMsg("client2", loggerParam);
+		 LoggerMsg msg = new LoggerMsg("client2", loggerParam);
 
 		// LoginMsg msg = new LoginMsg("client003", new LoginParam("hello",
 		// "world"));

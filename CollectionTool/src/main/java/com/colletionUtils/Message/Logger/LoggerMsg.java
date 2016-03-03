@@ -21,7 +21,7 @@ public class LoggerMsg extends BaseMsg {
 
 	private static final long serialVersionUID = 1L;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = LoggerParam.class)
-	@JoinColumn(name = "body_id", nullable = false, updatable = false) // 指定一个外键，也可以不指定。
+	@JoinColumn(name = "log_id", nullable = true, updatable = false) // 指定一个外键，也可以不指定。
 	private LoggerParam loggerParam;
 
 	public LoggerParam getLoggerParam() {

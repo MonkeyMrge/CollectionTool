@@ -22,7 +22,7 @@ public class PingMsg extends BaseMsg {
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = PingParam.class)
-	@JoinColumn(name = "body_id", nullable = false, updatable = false) // 指定一个外键，也可以不指定。
+	@JoinColumn(name = "ping_id", nullable = true, updatable = false) // 指定一个外键，也可以不指定。
 	private PingParam pingParam;
 
 	public PingParam getPingParam() {
