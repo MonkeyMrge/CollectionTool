@@ -10,6 +10,7 @@ import com.colletionUtils.Message.Ask.AskType;
 
 public class TestMain {
 	public static void main(String[] args) {
+		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("/SpringContext.xml");
 		System.out.println("----->" + context.getBean("sessionFactory"));
 		// BaseMsg baseMsg = new BaseMsg();

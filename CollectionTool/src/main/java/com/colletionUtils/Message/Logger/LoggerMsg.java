@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.Message.MsgType;
-import com.colletionUtils.Message.Ask.AskParam;
 
 @Entity
 @Table(name = "t_msg")
