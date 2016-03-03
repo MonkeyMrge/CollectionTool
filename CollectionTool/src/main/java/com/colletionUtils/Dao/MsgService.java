@@ -11,7 +11,7 @@ public class MsgService {
 	@Autowired
 	private MsgDao msgDao;
 
-	public void addMsg(BaseMsg baseMsg) {
+	public void saveMsg(BaseMsg baseMsg) {
 		msgDao.saveMsg(baseMsg);
 	}
 

@@ -3,12 +3,12 @@ package com.colletionUtils.NettyServer;
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.Common.Configs;
-import com.colletionUtils.Message.AskMsg;
-import com.colletionUtils.Message.AskParam;
-import com.colletionUtils.Message.AskType;
 import com.colletionUtils.Message.BaseMsg;
-import com.colletionUtils.Message.LoginParam;
 import com.colletionUtils.Message.MsgType;
+import com.colletionUtils.Message.Ask.AskMsg;
+import com.colletionUtils.Message.Ask.AskParam;
+import com.colletionUtils.Message.Ask.AskType;
+import com.colletionUtils.Message.Login.LoginParam;
 import com.colletionUtils.MqEndPoint.MqSendEP;
 import com.colletionUtils.MqEndPoint.MqSendEPMqImpl;
 

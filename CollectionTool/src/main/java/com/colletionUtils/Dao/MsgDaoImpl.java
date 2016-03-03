@@ -21,7 +21,6 @@ public class MsgDaoImpl implements MsgDao {
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
 	public void saveMsg(BaseMsg baseMsg) {
-		System.out.println(hibernateTemplate);
 		hibernateTemplate.save(baseMsg);
 	}
 
