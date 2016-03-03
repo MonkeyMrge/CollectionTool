@@ -10,8 +10,8 @@ import com.colletionUtils.Message.Ask.AskParam;
 import com.colletionUtils.Message.Ask.AskType;
 import com.colletionUtils.Message.Login.LoginMsg;
 import com.colletionUtils.Message.Login.LoginParam;
-import com.colletionUtils.MqEndPoint.MqSendEP;
-import com.colletionUtils.MqEndPoint.MqSendEPMqImpl;
+import com.colletionUtils.RabbitMQ.EndPoint.MqSendEP;
+import com.colletionUtils.RabbitMQ.EndPoint.MqSendEPMqImpl;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

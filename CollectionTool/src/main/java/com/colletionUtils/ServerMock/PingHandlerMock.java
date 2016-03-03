@@ -1,4 +1,4 @@
-package com.colletionUtils.mock;
+package com.colletionUtils.ServerMock;
 
 public class PingHandlerMock extends ServerMsgHandler {
 

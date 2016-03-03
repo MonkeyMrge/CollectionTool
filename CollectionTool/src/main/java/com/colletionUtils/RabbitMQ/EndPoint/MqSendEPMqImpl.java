@@ -1,10 +1,10 @@
-package com.colletionUtils.MqEndPoint;
+package com.colletionUtils.RabbitMQ.EndPoint;
 
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.Common.ObjectByteSwap;
-import com.colletionUtils.Common.RabbitMQExchangeType;
 import com.colletionUtils.Message.BaseMsg;
+import com.colletionUtils.RabbitMQ.Common.RabbitMQExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.MessageProperties;

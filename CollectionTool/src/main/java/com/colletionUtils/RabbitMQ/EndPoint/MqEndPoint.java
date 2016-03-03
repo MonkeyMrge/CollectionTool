@@ -1,7 +1,7 @@
-package com.colletionUtils.MqEndPoint;
+package com.colletionUtils.RabbitMQ.EndPoint;
 
 import com.colletionUtils.Common.Configs;
-import com.colletionUtils.Common.RabbitMQExchangeType;
+import com.colletionUtils.RabbitMQ.Common.RabbitMQExchangeType;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class MqEndPoint {

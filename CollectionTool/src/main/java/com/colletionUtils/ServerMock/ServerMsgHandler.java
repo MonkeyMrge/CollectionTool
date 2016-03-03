@@ -1,7 +1,7 @@
-package com.colletionUtils.mock;
+package com.colletionUtils.ServerMock;
 
 import com.colletionUtils.Message.BaseMsg;
-import com.colletionUtils.MqEndPoint.MqReceiveEP;
+import com.colletionUtils.RabbitMQ.EndPoint.MqReceiveEP;
 
 public class ServerMsgHandler {
 	protected String serverName;

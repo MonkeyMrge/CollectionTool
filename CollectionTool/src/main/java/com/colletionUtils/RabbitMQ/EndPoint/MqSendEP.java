@@ -1,4 +1,4 @@
-package com.colletionUtils.MqEndPoint;
+package com.colletionUtils.RabbitMQ.EndPoint;
 
 import com.colletionUtils.Message.BaseMsg;
 
