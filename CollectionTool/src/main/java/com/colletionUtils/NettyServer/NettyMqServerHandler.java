@@ -8,6 +8,7 @@ import com.colletionUtils.Message.MsgType;
 import com.colletionUtils.Message.Ask.AskMsg;
 import com.colletionUtils.Message.Ask.AskParam;
 import com.colletionUtils.Message.Ask.AskType;
+import com.colletionUtils.Message.Login.LoginMsg;
 import com.colletionUtils.Message.Login.LoginParam;
 import com.colletionUtils.MqEndPoint.MqSendEP;
 import com.colletionUtils.MqEndPoint.MqSendEPMqImpl;
@@ -68,7 +69,8 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 				System.out.println(logString);
 			} else if (msgType.equals(MsgType.LOGIN)) {
 				// Login类型消息处理
-				LoginParam loginParam = (LoginParam) msg.getMsgBody();
+				LoginMsg loginMsg = (LoginMsg) msg;
+				LoginParam loginParam = loginMsg.getLoginParam();
 				if (loginParam.getUserName().equals(Configs.NETTY_USERNAME)
 						&& loginParam.getPassword().equals(Configs.NETTY_PWD)) {
 					// Netty Client登录成功，保存其SocketChannel和最新消息时间

@@ -7,16 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.colletionUtils.Message.MsgBody;
-
 @Entity
 @Table(name = "t_logbody")
-public class LoggerParam extends MsgBody implements Serializable {
+public class LoggerParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
 	private int id;
 	private String logType;
 	private String logBody;
@@ -31,7 +28,7 @@ public class LoggerParam extends MsgBody implements Serializable {
 		return logType;
 	}
 
-	public Object getLogBody() {
+	public String getLogBody() {
 		return logBody;
 	}
 
@@ -43,10 +40,6 @@ public class LoggerParam extends MsgBody implements Serializable {
 		this.logBody = logBody;
 	}
 
-	@Id
-	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "loggerMsg") })
-	@GeneratedValue(generator = "pkGenerator")
 	public int getId() {
 		return id;
 	}

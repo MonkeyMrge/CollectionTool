@@ -7,17 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.colletionUtils.Message.MsgBody;
-
 @Entity
 @Table(name = "t_replybody")
-public class ReplyParam extends MsgBody implements Serializable {
+public class ReplyParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	@Id
+	@GeneratedValue
 	private int id;
 	private String msgBody;
 
@@ -25,7 +21,7 @@ public class ReplyParam extends MsgBody implements Serializable {
 		this.msgBody = msgBody;
 	}
 
-	public Object getMsgBody() {
+	public String getMsgBody() {
 		return msgBody;
 	}
 
@@ -33,10 +29,6 @@ public class ReplyParam extends MsgBody implements Serializable {
 		this.msgBody = msgBody;
 	}
 
-	@Id
-	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "replyMsg") })
-	@GeneratedValue(generator = "pkGenerator")
 	public int getId() {
 		return id;
 	}

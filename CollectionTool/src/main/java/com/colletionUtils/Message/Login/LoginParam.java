@@ -10,17 +10,17 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.colletionUtils.Message.MsgBody;
-
 /**
  * Netty服务端登录账号、密码信息
  */
 @Entity
 @Table(name = "t_loginbody")
-public class LoginParam extends MsgBody implements Serializable {
+public class LoginParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue
 	private int id;
 	/**
 	 * Netty服务端登录账号
@@ -53,10 +53,6 @@ public class LoginParam extends MsgBody implements Serializable {
 		this.password = password;
 	}
 
-	@Id
-	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "loginMsg") })
-	@GeneratedValue(generator = "pkGenerator")
 	public int getId() {
 		return id;
 	}

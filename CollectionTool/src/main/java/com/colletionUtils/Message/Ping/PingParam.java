@@ -10,13 +10,13 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.colletionUtils.Message.MsgBody;
-
 @Entity
 @Table(name = "t_pingbody")
-public class PingParam extends MsgBody implements Serializable {
+public class PingParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
 	private int id;
 	private String msgBody;
 
@@ -25,10 +25,6 @@ public class PingParam extends MsgBody implements Serializable {
 		msgBody = "This is a Ping Msg from " + clientId + "!";
 	}
 
-	@Id
-	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "pingMsg") })
-	@GeneratedValue(generator = "pkGenerator")
 	public int getId() {
 		return id;
 	}

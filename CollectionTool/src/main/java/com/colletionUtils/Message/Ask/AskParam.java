@@ -7,15 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.colletionUtils.Message.MsgBody;
-
 @Entity
 @Table(name = "t_askBody")
-public class AskParam extends MsgBody implements Serializable {
-
+public class AskParam implements Serializable {
+	@Id
+	@GeneratedValue
 	private int id;
 	private static final long serialVersionUID = 1L;
 	private AskType askType;
@@ -38,10 +34,6 @@ public class AskParam extends MsgBody implements Serializable {
 		return "AskParam [askType=" + askType + "]";
 	}
 
-	@Id
-	@GenericGenerator(name = "pkGenerator", strategy = "foreign", parameters = {
-			@Parameter(name = "property", value = "askMsg") })
-	@GeneratedValue(generator = "pkGenerator")
 	public int getId() {
 		return id;
 	}

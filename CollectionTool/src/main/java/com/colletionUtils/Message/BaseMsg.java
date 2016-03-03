@@ -44,10 +44,10 @@ public class BaseMsg implements Serializable {
 	 * 消息源ID
 	 */
 	private String clientId;
-	/**
-	 * 消息体
-	 */
-	private MsgBody msgBody;
+	// /**
+	// * 消息体
+	// */
+	// private MsgBody msgBody;
 
 	public Date getDate() {
 		return date;
@@ -73,15 +73,15 @@ public class BaseMsg implements Serializable {
 		this.clientId = clientId;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn // 这个注解只能写在主(生成ID)的一端
-	public MsgBody getMsgBody() {
-		return msgBody;
-	}
-
-	public void setMsgBody(MsgBody msgBody) {
-		this.msgBody = msgBody;
-	}
+	// @OneToOne(cascade = CascadeType.ALL)
+	// @PrimaryKeyJoinColumn // 这个注解只能写在主(生成ID)的一端
+	// public MsgBody getMsgBody() {
+	// return msgBody;
+	// }
+	//
+	// public void setMsgBody(MsgBody msgBody) {
+	// this.msgBody = msgBody;
+	// }
 
 	public int getId() {
 		return msgId;
@@ -91,10 +91,11 @@ public class BaseMsg implements Serializable {
 		this.msgId = msgId;
 	}
 
-	@Override
-	public String toString() {
-		return "BaseMsg [msgId=" + msgId + ", date=" + date + ", msgType=" + msgType + ", clientId=" + clientId
-				+ ", msgBody=" + msgBody + "]";
-	}
+	// @Override
+	// public String toString() {
+	// return "BaseMsg [msgId=" + msgId + ", date=" + date + ", msgType=" +
+	// msgType + ", clientId=" + clientId
+	// + ", msgBody=" + msgBody + "]";
+	// }
 
 }
