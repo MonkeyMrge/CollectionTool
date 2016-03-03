@@ -7,6 +7,13 @@ import com.colletionUtils.Dao.MsgService;
 import com.colletionUtils.Message.Ask.AskMsg;
 import com.colletionUtils.Message.Ask.AskParam;
 import com.colletionUtils.Message.Ask.AskType;
+import com.colletionUtils.Message.Logger.LoggerMsg;
+import com.colletionUtils.Message.Logger.LoggerParam;
+import com.colletionUtils.Message.Login.LoginMsg;
+import com.colletionUtils.Message.Login.LoginParam;
+import com.colletionUtils.Message.Ping.PingMsg;
+import com.colletionUtils.Message.Reply.ReplyMsg;
+import com.colletionUtils.Message.Reply.ReplyParam;
 
 public class TestMain {
 	public static void main(String[] args) {
@@ -18,9 +25,19 @@ public class TestMain {
 		// baseMsg.setMsgType(MsgType.ASK);
 		// baseMsg.setMsgBody(new String("hello"));
 		MsgService service = (MsgService) context.getBean("msgService");
-		// service.addMsg(baseMsg);
-		AskParam askParam = new AskParam(AskType.LOGIN);
-		AskMsg askMsg = new AskMsg("client001", askParam);
-		service.saveMsg(askMsg);
+
+		LoggerParam loggerParam = new LoggerParam("warning", "this is log");
+
+		AskMsg msg = new AskMsg("client001", new AskParam(AskType.LOGIN));
+
+		// LoggerMsg msg = new LoggerMsg("client2", loggerParam);
+
+		// LoginMsg msg = new LoginMsg("client003", new LoginParam("hello",
+		// "world"));
+		// PingMsg msg = new PingMsg("hello");
+		// ReplyMsg msg = new ReplyMsg("client004", new ReplyParam("this is a
+		// reply "));
+		service.saveMsg(msg);
+
 	}
 }

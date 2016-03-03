@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.Message.MsgType;
 
+/**
+ * 请求类型消息，默认不做持久化
+ */
 @Entity
 @Table(name = "t_msg")
 @DiscriminatorValue("AskMsg")
@@ -29,10 +32,17 @@ public class AskMsg extends BaseMsg {
 		this.askParam = askParam;
 	}
 
+	public AskMsg(String clientId, AskParam askParam, Boolean persist) {
+		setClientId(clientId);
+		setMsgType(MsgType.ASK);
+		setAskParam(askParam);
+		setPersist(persist);
+	}
+
 	public AskMsg(String clientId, AskParam askParam) {
 		setClientId(clientId);
 		setMsgType(MsgType.ASK);
 		setAskParam(askParam);
+		setPersist(false);
 	}
-
 }

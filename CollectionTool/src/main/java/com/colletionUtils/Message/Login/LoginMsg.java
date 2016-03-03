@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.Message.MsgType;
 
+/**
+ * 登录类消息，默认不做持久化
+ */
 @Entity
 @Table(name = "t_msg")
 @DiscriminatorValue("LoginMsg")
@@ -33,6 +36,14 @@ public class LoginMsg extends BaseMsg {
 		setClientId(clientId);
 		setMsgType(MsgType.LOGIN);
 		setLoginParam(loginParam);
+		setPersist(false);
+	}
+
+	public LoginMsg(String clientId, LoginParam loginParam, Boolean persist) {
+		setClientId(clientId);
+		setMsgType(MsgType.LOGIN);
+		setLoginParam(loginParam);
+		setPersist(persist);
 	}
 
 }

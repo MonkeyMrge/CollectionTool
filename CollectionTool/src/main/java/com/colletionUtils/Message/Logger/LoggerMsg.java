@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.Message.MsgType;
 
+/**
+ * 日志类消息，默认做持久化
+ */
 @Entity
 @Table(name = "t_msg")
 @DiscriminatorValue("LoggerMsg")
@@ -29,10 +32,18 @@ public class LoggerMsg extends BaseMsg {
 		this.loggerParam = loggerParam;
 	}
 
+	public LoggerMsg(String clientId, LoggerParam loggerParam, Boolean persist) {
+		setClientId(clientId);
+		setMsgType(MsgType.LOGGER);
+		setLoggerParam(loggerParam);
+		setPersist(persist);
+	}
+
 	public LoggerMsg(String clientId, LoggerParam loggerParam) {
 		setClientId(clientId);
 		setMsgType(MsgType.LOGGER);
 		setLoggerParam(loggerParam);
+		setPersist(true);
 	}
 
 }

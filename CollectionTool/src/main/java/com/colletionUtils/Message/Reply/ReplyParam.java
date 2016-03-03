@@ -2,10 +2,13 @@ package com.colletionUtils.Message.Reply;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "t_replybody")
@@ -13,8 +16,10 @@ public class ReplyParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue
-	private int id;
+	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid")
+	@Column(name = "id", insertable = true, updatable = true, nullable = false)
+	private String id;
 	private String msgBody;
 
 	public ReplyParam(String msgBody) {
@@ -29,11 +34,11 @@ public class ReplyParam implements Serializable {
 		this.msgBody = msgBody;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

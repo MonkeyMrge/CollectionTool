@@ -3,6 +3,7 @@ package com.colletionUtils.Message;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -25,10 +29,10 @@ public class BaseMsg implements Serializable {
 	 * 消息ID
 	 */
 	@Id
-	// @GenericGenerator(name = "uuidGen", strategy = "uuid")
-	// @GeneratedValue(generator = "uuidGen")
-	@GeneratedValue
-	private int msgId;
+	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GeneratedValue(generator = "uuid")
+	@Column(name = "msg_id", insertable = true, updatable = true, nullable = false)
+	private String id;
 	/**
 	 * 消息创建时间
 	 */
@@ -41,10 +45,20 @@ public class BaseMsg implements Serializable {
 	 * 消息源ID
 	 */
 	private String clientId;
-	// /**
-	// * 消息体
-	// */
-	// private MsgBody msgBody;
+
+	/**
+	 * 消息是否需要持久化标识
+	 */
+	@Transient
+	private Boolean persist;
+
+	public Boolean getPersist() {
+		return persist;
+	}
+
+	public void setPersist(Boolean persist) {
+		this.persist = persist;
+	}
 
 	public Date getDate() {
 		return date;
@@ -70,29 +84,12 @@ public class BaseMsg implements Serializable {
 		this.clientId = clientId;
 	}
 
-	// @OneToOne(cascade = CascadeType.ALL)
-	// @PrimaryKeyJoinColumn // 这个注解只能写在主(生成ID)的一端
-	// public MsgBody getMsgBody() {
-	// return msgBody;
-	// }
-	//
-	// public void setMsgBody(MsgBody msgBody) {
-	// this.msgBody = msgBody;
-	// }
-
-	public int getId() {
-		return msgId;
+	public String getId() {
+		return id;
 	}
 
-	public void setId(int msgId) {
-		this.msgId = msgId;
+	public void setId(String id) {
+		this.id = id;
 	}
-
-	// @Override
-	// public String toString() {
-	// return "BaseMsg [msgId=" + msgId + ", date=" + date + ", msgType=" +
-	// msgType + ", clientId=" + clientId
-	// + ", msgBody=" + msgBody + "]";
-	// }
 
 }

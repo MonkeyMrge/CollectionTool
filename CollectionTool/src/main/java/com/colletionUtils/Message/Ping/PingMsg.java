@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.Message.MsgType;
 
+/**
+ * 心跳类消息，默认不做持久化
+ */
 @Entity
 @Table(name = "t_msg")
 @DiscriminatorValue("PingMsg")
@@ -34,6 +37,14 @@ public class PingMsg extends BaseMsg {
 		setClientId(clientId);
 		setMsgType(MsgType.PING);
 		setPingParam(new PingParam(clientId));
+		setPersist(false);
+	}
+
+	public PingMsg(String clientId, Boolean persist) {
+		setClientId(clientId);
+		setMsgType(MsgType.PING);
+		setPingParam(new PingParam(clientId));
+		setPersist(persist);
 	}
 
 }
