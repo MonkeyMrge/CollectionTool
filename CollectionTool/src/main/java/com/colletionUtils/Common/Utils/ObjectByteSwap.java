@@ -1,4 +1,4 @@
-package com.colletionUtils.Common;
+package com.colletionUtils.Common.Utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

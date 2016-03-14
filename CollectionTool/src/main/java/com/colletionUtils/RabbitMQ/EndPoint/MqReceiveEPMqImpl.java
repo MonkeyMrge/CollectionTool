@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.Common.Configs;
-import com.colletionUtils.Common.ObjectByteSwap;
+import com.colletionUtils.Common.Utils.ObjectByteSwap;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.RabbitMQ.Common.RabbitMQExchangeType;
 import com.colletionUtils.ServerMock.ServerMsgHandler;
