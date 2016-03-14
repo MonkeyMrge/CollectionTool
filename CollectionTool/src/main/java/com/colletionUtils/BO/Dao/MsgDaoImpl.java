@@ -1,4 +1,4 @@
-package com.colletionUtils.Dao;
+package com.colletionUtils.BO.Dao;
 
 import javax.annotation.Resource;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.colletionUtils.Message.BaseMsg;
+import com.colletionUtils.BO.MsgBO;
 
 @Repository("msgDao")
 public class MsgDaoImpl implements MsgDao {
@@ -20,23 +20,23 @@ public class MsgDaoImpl implements MsgDao {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public void saveMsg(BaseMsg baseMsg) {
-		hibernateTemplate.save(baseMsg);
+	public void saveMsg(MsgBO msgBO) {
+		hibernateTemplate.save(msgBO);
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public void deleteMsg(BaseMsg baseMsg) {
-		hibernateTemplate.delete(baseMsg);
+	public void deleteMsg(MsgBO msgBO) {
+		hibernateTemplate.delete(msgBO);
 	}
 
 	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
-	public void updateMsg(BaseMsg baseMsg) {
-		hibernateTemplate.update(baseMsg);
+	public void updateMsg(MsgBO msgBO) {
+		hibernateTemplate.update(msgBO);
 	}
 
 	@Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-	public BaseMsg getMsgById(int id) {
-		return hibernateTemplate.get(BaseMsg.class, id);
+	public MsgBO getMsgById(String id) {
+		return hibernateTemplate.get(MsgBO.class, id);
 	}
 
 }

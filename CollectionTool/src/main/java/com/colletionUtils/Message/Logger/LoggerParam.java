@@ -2,24 +2,9 @@ package com.colletionUtils.Message.Logger;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
-@Entity
-@Table(name = "t_logbody")
 public class LoggerParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@GeneratedValue(generator = "uuid")
-	@Column(name = "id", insertable = true, updatable = true, nullable = false)
-	private String id;
 
 	private String logType;
 	private String logBody;
@@ -44,14 +29,6 @@ public class LoggerParam implements Serializable {
 
 	public void setLogBody(String logBody) {
 		this.logBody = logBody;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	@Override

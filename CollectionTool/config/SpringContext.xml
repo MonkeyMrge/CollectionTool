@@ -145,7 +145,7 @@
 		/> </aop:config> -->
 
 
-	<bean id="msgDaoImpl" class="com.colletionUtils.Dao.MsgDaoImpl">
+	<bean id="msgDaoImpl" class="com.colletionUtils.BO.Dao.MsgDaoImpl">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
