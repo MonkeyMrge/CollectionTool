@@ -52,7 +52,7 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 	@Override
 	protected void messageReceived(ChannelHandlerContext ctx, BaseMsg msg) throws Exception {
 		try {
-			String clientId = msg.getClientId();
+			String clientId = msg.getFromUri();
 
 			MsgType msgType = msg.getMsgType();
 			logString = "Netty Server receive msg from " + clientId + " , msg is " + msg;
@@ -70,7 +70,7 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 			} else if (msgType.equals(MsgType.LOGIN)) {
 				// Login类型消息处理
 				LoginMsg loginMsg = (LoginMsg) msg;
-				LoginParam loginParam = loginMsg.getLoginParam();
+				LoginParam loginParam = (LoginParam) loginMsg.getMsgBody();
 				if (loginParam.getUserName().equals(Configs.NETTY_USERNAME)
 						&& loginParam.getPassword().equals(Configs.NETTY_PWD)) {
 					// Netty Client登录成功，保存其SocketChannel和最新消息时间

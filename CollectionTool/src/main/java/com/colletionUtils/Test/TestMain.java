@@ -4,16 +4,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.colletionUtils.Dao.MsgService;
-import com.colletionUtils.Message.Ask.AskMsg;
-import com.colletionUtils.Message.Ask.AskParam;
-import com.colletionUtils.Message.Ask.AskType;
 import com.colletionUtils.Message.Logger.LoggerMsg;
 import com.colletionUtils.Message.Logger.LoggerParam;
-import com.colletionUtils.Message.Login.LoginMsg;
-import com.colletionUtils.Message.Login.LoginParam;
-import com.colletionUtils.Message.Ping.PingMsg;
-import com.colletionUtils.Message.Reply.ReplyMsg;
-import com.colletionUtils.Message.Reply.ReplyParam;
 
 public class TestMain {
 	public static void main(String[] args) {
