@@ -1,4 +1,4 @@
-package com.colletionUtils.Common.Utils;
+package com.colletionUtils.Serialize;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

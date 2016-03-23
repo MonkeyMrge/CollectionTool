@@ -12,11 +12,11 @@ public class NettyChannelMap {
 	private static final Logger logger = Logger.getLogger(NettyChannelMap.class);
 
 	/**
-	 * ClientId与其对应的SocketChannel
+	 * <ip:port>与其对应的SocketChannel
 	 */
 	private static ConcurrentHashMap<String, SocketChannel> idSocketmap = new ConcurrentHashMap<String, SocketChannel>();
 	/**
-	 * ClientId与其最近消息的时间
+	 * <ip:port>与其最近消息的时间
 	 */
 	private static ConcurrentHashMap<String, Date> statusMap = new ConcurrentHashMap<String, Date>();
 

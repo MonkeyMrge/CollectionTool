@@ -77,6 +77,10 @@ public class Configs {
 	public static int Netty_Server_SO_Backlog = 128;
 
 	/**
+	 * Netty Server 重连 时间，单位ms
+	 */
+	public static int Netty_Server_ReConnected_Time = 1000;
+	/**
 	 * 保持长连接, true;
 	 */
 	public static Boolean Netty_Server_SO_KEEPALIVE = true;

@@ -125,6 +125,10 @@ public class MsgBO {
 		this.msgBody = msgBody;
 	}
 
+	public String getId() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
 		return "MsgBO [id=" + id + ", date=" + date + ", msgType=" + msgType + ", fromUri=" + fromUri + ", msgBody="

@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.colletionUtils.Common.Configs;
-import com.colletionUtils.Common.Utils.ObjectByteSwap;
 import com.colletionUtils.Message.BaseMsg;
 import com.colletionUtils.RabbitMQ.Common.RabbitMQExchangeType;
+import com.colletionUtils.Serialize.ObjectByteSwap;
 import com.colletionUtils.ServerMock.ServerMsgHandler;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

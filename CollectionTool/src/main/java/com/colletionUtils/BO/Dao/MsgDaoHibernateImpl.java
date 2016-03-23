@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.colletionUtils.BO.MsgBO;
 
-@Repository("msgDao")
-public class MsgDaoImpl implements MsgDao {
+//@Repository("msgDao")
+public class MsgDaoHibernateImpl implements MsgDao {
 	private HibernateTemplate hibernateTemplate;
 
 	@Resource(name = "sessionFactory")

@@ -19,6 +19,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 
+/**
+ * Netty 中有两个方向的数据流，入站(ChannelInboundHandler)和出站(ChannelOutboundHandler)之间有一个明
+ * 显的区别：若数据是从用户应用程序到远程主机则是“出站(outbound)”，相反若数据时从远程主机到用户应用程序则是“入站 (inbound)”。
+ */
 public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 
 	private static final Logger logger = Logger.getLogger(NettyMqServerHandler.class);
@@ -29,6 +33,11 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 	}
 
 	@Override
+	/**
+	 * Invoked when a user calls Channel.fireUserEventTriggered(...) to pass a
+	 * pojo through the ChannelPipeline. This can be used to pass user specific
+	 * events through the ChannelPipeline and so allow handling those events.
+	 */
 	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 		// 超时处理机制
 		if (evt instanceof IdleStateEvent) {
@@ -118,6 +127,58 @@ public class NettyMqServerHandler extends SimpleChannelInboundHandler<BaseMsg> {
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		super.exceptionCaught(ctx, cause);
 		logger.warn(ctx + " caught Exception: " + cause.getMessage());
+	}
+
+	@Override
+	/**
+	 * Invoked when a Channel is registered to its EventLoop and is able to
+	 * handle I/O.
+	 */
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelRegistered(ctx);
+	}
+
+	@Override
+	/**
+	 * Invoked when a Channel is deregistered from its EventLoop and cannot
+	 * handle any I/O./
+	 */
+	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		super.channelUnregistered(ctx);
+	}
+
+	@Override
+	/**
+	 * Invoked when a Channel is active; the Channel is connected/bound and
+	 * ready.
+	 */
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		super.channelActive(ctx);
+	}
+
+	@Override
+	/**
+	 * Invoked when a Channel leaves active state and is no longer connected to
+	 * its remote peer.
+	 */
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		super.channelInactive(ctx);
+	}
+
+	@Override
+	/**
+	 * Invoked when a read operation on the Channel has completed
+	 */
+	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+		super.channelReadComplete(ctx);
+	}
+
+	@Override
+	/**
+	 * Invoked if data are read from the Channel.
+	 */
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		super.channelRead(ctx, msg);
 	}
 
 }

@@ -13,10 +13,6 @@ public class TestMain {
 		@SuppressWarnings("resource")
 		ApplicationContext context = new ClassPathXmlApplicationContext("/SpringContext.xml");
 		System.out.println("----->" + context.getBean("sessionFactory"));
-		// BaseMsg baseMsg = new BaseMsg();
-		// baseMsg.setDate(new Date(System.currentTimeMillis()));
-		// baseMsg.setMsgType(MsgType.ASK);
-		// baseMsg.setMsgBody(new String("hello"));
 		MsgService service = (MsgService) context.getBean("msgService");
 
 		LoggerParam loggerParam = new LoggerParam("warning", "this is log");
@@ -32,6 +28,7 @@ public class TestMain {
 		// reply "));
 		MsgBO msgBO = new MsgBO(msg);
 		service.saveMsg(msgBO);
+		
 
 		MsgBO msgBO2 = service.findMsgById("8a988285537437e101537437e3ba0000");
 		System.out.println(msgBO2);
